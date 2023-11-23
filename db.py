@@ -26,7 +26,7 @@ def add_search_results(query, new_data):
     cursor = get_cursor()
     query = query.replace(' ', '_')
 
-    add_data(cursor, query, new_data['track'] + new_data['album'] + new_data['artist'])
+    add_data(cursor, query, new_data['track'] + new_data['album'])
 
     cursor.connection.commit()
 
@@ -68,7 +68,6 @@ def search_by_query(query):
     res = {
         'track': [],
         'album': [],
-        'artist': []
     }
 
     query_res = c.execute("SELECT * FROM search ORDER BY type").fetchall()

@@ -1,12 +1,10 @@
-from api_requets import post_request, get_request
+from api_requets import get_request
 
 spotify_api_url = 'spotify23.p.rapidapi.com'
-shazam_api_url = 'shazam.p.rapidapi.com'
 
 current_key = 0
 keys = [
-    "89488e69a4mshcb628c81e41961ep142676jsn3ea877f26d40",
-    #"50a30822eamsh5b12b6abf4cb78dp1b77d8jsn0106d78b94a0",
+    "d9e1c630d5msh09b2e09c2748e73p13b4c4jsnd78cb5044a29"
 ]
 
 
@@ -35,17 +33,20 @@ def search(query):
     data = get_request(url, args, headers)
 
     print('Got Response!')
+    print(data)
     result = data['tracks']['items'] + data['albums']['items']
     return result
 
 
 def get_radio_uri(uri):
+    print(uri)
     url = make_url(spotify_api_url, 'seed_to_playlist')
     headers = make_header(spotify_api_url)
     args = {
         'uri': uri
     }
     data = get_request(url, args, headers)
+    print(data)
     return data['mediaItems'][0]['uri']
 
 

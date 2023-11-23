@@ -1,48 +1,37 @@
 import sys
-from PyQt5 import uic
-from PyQt5.QtGui import QFontDatabase
-from PyQt5.QtCore import Qt
-from PyQt5.QtWidgets import QApplication, QMainWindow, QWidget, QVBoxLayout, QHBoxLayout
+from PyQt5.QtWidgets import QApplication, QHBoxLayout
 
 import apidb
 from audio_manager import AudioManager
+
+
+from windows import Settings, MainWindow
 from widgets import TrackElement, AlbumElement
 
 
-# class TrackElement(QWidget):
-#     def __init__(self, *args, **kwargs):
-#         super().__init__(*args, **kwargs)
-#         # uic.loadUi("track_element.ui", self)
-#         uic.loadUi("untitled.ui", self)
-
-
-class SongApp(QMainWindow):
+class SongApp(MainWindow):
     def __init__(self):
         super().__init__()
-        uic.loadUi("ui.ui", self)
-
-        QFontDatabase.addApplicationFont('futura/unicode.futurab.ttf')
-        QFontDatabase.addApplicationFont('futura/futura light bt.ttf')
-
-        self.search_bar_text = ''
-        self.search_bar.editingFinished.connect(self.search, Qt.QueuedConnection)
-
-        self.widget = QWidget()
-        self.vbox = QVBoxLayout()
-        self.scroll_area_setup()
 
         self.audio_manager = AudioManager()
+        self.settings = Settings(self.audio_manager)
+        self.settingsButton.clicked.connect(self.settings_button)
 
-    def scroll_area_setup(self):
-        self.scrollArea.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOn)
-        self.scrollArea.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
-        self.scrollArea.setWidgetResizable(True)
-        self.scrollArea.setWidget(self.widget)
+        self.settings.darkButton.clicked.connect(lambda x: self.set_theme(True))
+        self.settings.lightButton.clicked.connect(lambda x: self.set_theme(False))
 
-        self.widget.setLayout(self.vbox)
+        self.set_theme(False)
+
+    def set_theme(self, is_dark):
+        if is_dark:
+            self.set_dark_theme(self)
+            self.set_dark_theme(self.settings)
+        else:
+            self.set_light_theme(self)
+            self.set_light_theme(self.settings)
 
     def search(self):
-        if self.search_bar.text() == self.search_bar_text:
+        if self.search_bar.text() == '' or self.search_bar.text() == self.search_bar_text:
             return
         self.search_bar_text = self.search_bar.text()
 
@@ -57,24 +46,8 @@ class SongApp(QMainWindow):
         if 'album' in data:
             self.create_albums(data, layout)
 
-    def update_list(self, data):
-        self.clear_scroll_area()
-        self.audio_manager.current_track = None
-        self.create_list_of_data(data, self.vbox)
-
-    def clear_scroll_area(self):
-        self.clear_layout(self.vbox)
-
-    def clear_layout(self, layout):
-        for i in reversed(range(layout.count())):
-            layout.itemAt(i).widget()
-            if layout.itemAt(i).widget():
-                layout.itemAt(i).widget().deleteLater()
-            else:
-                self.clear_layout(layout.itemAt(i).layout())
-                layout.itemAt(i).layout().deleteLater()
-
     def create_tracks(self, data, layout):
+        print('creating tracks')
         for track in data['track']:
             print(track['name'])
             widget = TrackElement(self, track)
@@ -96,15 +69,22 @@ class SongApp(QMainWindow):
 
             layout.addLayout(row)
 
+    def settings_button(self):
+        self.settings.show()
+
+    def update_list(self, data):
+        self.clear_scroll_area()
+        self.audio_manager.current_track = None
+        self.create_list_of_data(data, self.vbox)
+
     def closeEvent(self, event):
         self.audio_manager.stop_audio()
+        self.settings.close()
         super().closeEvent(event)
-
 
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
     ex = SongApp()
     ex.show()
-    print('123')
     sys.exit(app.exec())

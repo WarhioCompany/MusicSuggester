@@ -35,7 +35,8 @@ class Ui_Form(object):
         sizePolicy.setHeightForWidth(self.picture_2.sizePolicy().hasHeightForWidth())
         self.picture_2.setSizePolicy(sizePolicy)
         self.picture_2.setMinimumSize(QtCore.QSize(180, 180))
-        self.picture_2.setStyleSheet("background-color: qlineargradient(spread:pad, x1:0, y1:1, x2:0, y2:0, stop:0 rgba(0, 0, 0, 75), stop:1 rgba(200, 200, 200, 75));")
+        self.picture_2.setStyleSheet(
+            "background-color: qlineargradient(spread:pad, x1:0, y1:1, x2:0, y2:0, stop:0 rgba(0, 0, 0, 75), stop:1 rgba(200, 200, 200, 75));")
         self.picture_2.setText("")
         self.picture_2.setObjectName("picture_2")
         self.verticalLayoutWidget = QtWidgets.QWidget(Form)
@@ -74,7 +75,8 @@ class Ui_Form(object):
         self.button.setGeometry(QtCore.QRect(0, 0, 180, 180))
         self.button.setMinimumSize(QtCore.QSize(180, 180))
         self.button.setMaximumSize(QtCore.QSize(180, 180))
-        self.button.setStyleSheet("QPushButton {  background-color: rgb(0, 0, 0, 0); } QPushButton:hover {  background-color: rgb(0, 0, 0, 50); }")
+        self.button.setStyleSheet(
+            "QPushButton {  background-color: rgb(0, 0, 0, 0); } QPushButton:hover {  background-color: rgb(0, 0, 0, 50); }")
         self.button.setText("")
         self.button.setObjectName("button")
 

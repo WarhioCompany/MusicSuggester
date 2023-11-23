@@ -1,0 +1,31 @@
+QMainWindow{
+    background-color: #121212
+}
+QScrollArea { background: transparent; }
+QScrollArea > QWidget > QWidget { background: transparent; }
+QScrollArea > QWidget > QScrollBar { background: palette(base); }
+
+QScrollBar:vertical {
+    background-color: #121212
+}
+
+QScrollBar::handle:vertical {
+    background-color: #404040;
+    min-height: 100px;
+    max-height: 200px;
+    margin-top: -2px;
+    margin-bottom: -2px;
+    border-radius: 4px;
+}
+
+QLineEdit{
+    background-color: #ffffff
+}
+
+QLabel#name, QLabel#volume, QLabel#duration{
+    color: white;
+}
+
+QPushButton#settingsButton{
+    background-image: url('setting_white.png');
+}

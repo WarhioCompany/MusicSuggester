@@ -13,10 +13,5 @@ def make_header(headers=None):
 
 
 def get_request(url, params, headers=None):
-    data = requests.get(url=url, params=params, headers=headers)#make_header(headers))
-    return json.loads(data.text)
-
-
-def post_request(url, body, headers=None):
-    data = requests.get(url=url, data=body, headers=make_header(headers))
+    data = requests.get(url=url, params=params, headers=headers)
     return json.loads(data.text)

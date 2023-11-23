@@ -32,6 +32,7 @@ def filter_api_results(api_data):
     for element in api_data:
         obj = parse_element(element['data'])
         if obj:
+            print(obj['type'])
             results[obj['type']].append(obj)
     return results
 
@@ -50,6 +51,7 @@ def parse_element(data):
     }
     try:
         if elem_type == 'artist':
+            print('wthhffff')
             result['name'] = data['profile']['name']
             result['cover'] = data['visuals']['avatarImage']['sources'][1]['url']
         else:
@@ -80,6 +82,7 @@ def calculate_duration(data):
 
 
 def get_similar_tracks(uri):
+    print('getting similar tracks')
     playlist_uri = api.get_radio_uri(uri)
     playlist_id = playlist_uri.split(':')[-1]
 

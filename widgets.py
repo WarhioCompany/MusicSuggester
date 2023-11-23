@@ -35,8 +35,8 @@ class TrackElement(QWidget, track_element.Ui_Form):
         self.set_data(data)
 
     def set_data(self, data):
-        self.name.setText(data['name'])
-        self.artist.setText(data['artist'])
+        self.name.setText(shorten_long_text(data['name'], 35))
+        self.artist.setText(shorten_long_text(data['artist'], 60))
 
         self.duration.setText(data['duration'])
 
@@ -45,7 +45,7 @@ class TrackElement(QWidget, track_element.Ui_Form):
         self.playButton.clicked.connect(self.play_button)
 
     def click(self, uri):
-        print(self.preview_url)
+        print('Click!')
         data = apidb.get_similar_tracks(uri)
 
         self.parent_class.update_list(data)
